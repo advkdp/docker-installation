@@ -1,0 +1,32 @@
+docker installation from get.docker.com docs.docker.com
+
+    1  curl -fsSL https://get.docker.com -o get-docker.sh
+    2  sh get-docker.sh
+    3  sudo usermod -aG docker ubuntu
+    4  sudo docker vesrion
+    5  sudo docker version
+
+    command taken from this site
+    https://docs.docker.com/machine/install-machine/
+    To install docker-machine
+
+    6  base=https://github.com/docker/machine/releases/download/v0.16.0 &&   curl -L $base/docker-machine-$(uname -s)-$(uname -m) >/tmp/docker-machine &&   sudo mv /tmp/docker-machine /usr/local/bin/docker-machine &&   chmod +x /usr/local/bin/docker-machine
+
+    7  docker-machine version
+
+    docker-machine version 0.16.0, build 702c267f
+
+
+To install docker-compose
+from github site
+https://github.com/docker/compose/releases?after=1.25.5-rc2
+
+    8  curl -L https://github.com/docker/compose/releases/download/1.25.4/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
+    9  chmod +x /usr/local/bin/docker-compose
+   10  docker-compose version
+
+docker-compose version
+docker-compose version 1.25.4, build 8d51620a
+docker-py version: 4.1.0
+CPython version: 3.7.5
+OpenSSL version: OpenSSL 1.1.0l  10 Sep 2019
