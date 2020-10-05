@@ -1,0 +1,62 @@
+userdel --remove sagar      [ For CentOS/RedHat System]
+hostnamectl set-hostname newhostname
+vi /etc/hosts
+# /etc/init.d/hostname restart
+# vi /etc/sysconfig/network
+/etc/sysconfig/network
+NETWORKING=yes
+HOSTNAME="tecmint.com"
+GATEWAY="192.168.0.1"
+GATEWAYDEV="eth0"
+FORWARD_IPV4="yes"
+sudo usermod -aG docker jenkins
+
+echo "jenkins  ALL=(ALL) NOPASSWD:ALL" | sudo tee /etc/sudoers.d/jenkins
+
+version: '3'
+
+services:
+  jenkins:
+    container_name: jenkins
+    image: jenkins/jenkins
+    ports:
+      - "8080:8080"
+    volumes:
+      - "$PWD/jenkins_home:/var/jenkins_home"
+    networks:
+      - net:
+networks:
+  net: 
+
+
+  systemctl start docker
+It worked fine for me.
+
+P.S.: after if there is commands that you can't do without sudo, try this:
+
+gpasswd -a $USER docker
+
+Issue:
+
+docker ps doesn't show the running container.
+
+Debug:
+
+docker ps -a shows the container with exit status.
+
+docker logs jenkins shows a volume permission error.
+
+Reason:
+
+* Inside of the Jenkins container, there's a user named "jenkins" which has a Linux uid of 1000.
+
+* You are mounting a docker volume to /var/jenkins_home which is the home directory of that user. If the directory doesn't have 1000 permissions, then the user won't be able to write/delete files, which causes the container to exit.
+
+Resolution:
+
+Apply 1000 permissions to your jenkins-data folder, and then restart the container.
+
+sudo chown 1000:1000 -R ~/jenkins-data 
+docker-compose up -d
+
+docker logs jenkins to get password also
